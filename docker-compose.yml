@@ -1,0 +1,25 @@
+# Layanan lokal untuk pengembangan (IPD Hari 2). BELUM dijalankan di mesin ini
+# karena Docker tidak tersedia. Kredensial di sini hanya untuk lokal.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: kopikini
+      POSTGRES_PASSWORD: change-me-local
+      POSTGRES_DB: kopikini
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kopikini -d kopikini"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
